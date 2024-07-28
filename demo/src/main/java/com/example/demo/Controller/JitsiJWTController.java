@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
 
 @RestController
 @RequestMapping("/api")
@@ -35,13 +33,9 @@ public class JitsiJWTController {
             return ResponseEntity.badRequest().body(validationErrors);
         }
 
-//        String randomUserID = generateRandomString();
-//        String randomRoomID = generateRandomString();
-
-        String jwtTokenData = jwtTokenService.generateToken();
-
+        Map<String, Object> userTokenData = jwtTokenService.generateUserJWTTokenData(userData.doctorname, userData.doctoremail, userData.patientname, userData.patientemail);
         Map<String, Object> response = new HashMap<>();
-        response.put("token" , jwtTokenData);
+        response.putAll(userTokenData);
         response.put("timestamp", LocalDateTime.now());
 
         // Process the validated User object (save to database, etc.)

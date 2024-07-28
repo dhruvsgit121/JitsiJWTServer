@@ -8,15 +8,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class UserData {
 
-    @NotBlank(message = "Username is required")
-    public String name;
+    @NotBlank(message = "Doctor Name is required")
+    public String doctorname;
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
     @NotNull(message = "Email can not be null.")
-    public String email;
+    public String doctoremail;
+
+    @NotBlank(message = "Patient Name is required")
+    public String patientname;
+
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is required")
+    @NotNull(message = "Email can not be null.")
+    public String patientemail;
 
 }
