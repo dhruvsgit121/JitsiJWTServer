@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 //import java.util.Base64;
 //import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 //import java.time.Instant;
@@ -104,7 +105,7 @@ public class JwtTokenService {
 
         // Use JwtBuilder to construct a JWT token
         String token = Jwts.builder()
-                .setClaims(claims)
+                .setClaims(claims).claim("role", "participant")
                 .signWith(SignatureAlgorithm.HS256, signingKey).setHeaderParam("typ", "JWT")
                 .compact();
         return token;
@@ -122,6 +123,7 @@ public class JwtTokenService {
         claims.put("exp", JitsiJWTUtilities.getExpirationTimeStamp(expirationOffset)); // Expiry time in milliseconds (1 hour)
 //        "moderator": true
         claims.put("moderator", isModerator);
+        claims.put("role", isModerator ? "moderator" : "participant");
         return claims;
     }
 
@@ -133,7 +135,17 @@ public class JwtTokenService {
         user.put("name", username);
         user.put("id", userID);
         user.put("email", userEmail);
+        user.put("affiliation", isModerator ? "owner" : "member");
+//        "affiliation": "owner"
         context.put("user", user);
+//        context.put("group", isModerator ? "moderator" : "viewer");
+//        roles: ['moderator']  // Assign the moderator role
+
+        ArrayList<String> roles = new ArrayList<>();
+        roles.add(isModerator ? "moderator" : "participant");
+
+        context.put("affiliation", isModerator ? "owner" : "member");
+        context.put("role", roles);
         return context;
     }
 

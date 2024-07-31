@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.POJO.UserData;
 import com.example.demo.Service.JwtTokenService;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,9 +21,18 @@ public class JitsiJWTController {
     @Autowired
     private JwtTokenService jwtTokenService;
 
+    @GetMapping("/helloworld")
+    public String getHelloWorld() {
+        System.out.println("Hello World!!!");
+        return "Hello World!!!";
+    }
+
+
     @PostMapping("/generatejwttoken")
-    public ResponseEntity<?> generateJitsiJWTToken(@Valid @RequestBody UserData userData, BindingResult result) throws  Exception {
+    public ResponseEntity<?> generateJitsiJWTToken(@Valid @RequestBody UserData userData, BindingResult result) throws Exception {
         // Handle the postRequest object here
+
+        System.out.println("--->/generatejwttoken API Called");
 
         if (result.hasErrors()) {
             // Map to store validation errors
